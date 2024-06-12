@@ -1,0 +1,16 @@
+[user]
+name = bek
+email = ismoiliy98@gmail.com
+signingkey = 0566CE3B
+
+[init]
+defaultBranch = main
+
+[rerere]
+enabled = true
+
+[commit]
+gpgSign = true
+
+[tag]
+gpgSign = true
