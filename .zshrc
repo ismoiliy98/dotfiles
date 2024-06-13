@@ -1,6 +1,6 @@
 # Helper functions
 __load() {
-  source "$HOME/.config/zsh/.$1.sh"
+  source "$HOME/.config/zsh/.$1.zsh"
 }
 __add_to_path() {
   case ":$PATH:" in
@@ -24,6 +24,7 @@ __load 'zinit-plugins'
 __load 'history-settings'
 __load 'completions'
 __load 'smart-mover'
+__load 'aliases'
 
 # GPG
 command -v gpgconf >/dev/null 2>&1 && export GPG_TTY=$(tty) && gpgconf --launch gpg-agent
@@ -58,9 +59,8 @@ elif [ -d "/usr/local/go/bin" ]; then
 fi
 [ -n "$GOPATH" ] && __add_to_path "$GOPATH/bin"
 
+# Autocd
+setopt auto_cd
+
 # Cleanup
 unfunction __load __add_to_path
-
-# Aliases
-alias ls='ls --color'
-alias l='ls -lah'
