@@ -6,4 +6,5 @@ setopt appendhistory sharehistory hist_save_no_dups hist_find_no_dups hist_ignor
 bindkey "^[[A" history-search-backward
 bindkey "^[[B" history-search-forward
 autoload -U history-search-end
-autoload -U compinit && compinit
+autoload -Uz compinit && compinit
+zinit cdreplay -q

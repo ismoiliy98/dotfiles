@@ -13,6 +13,7 @@ __add_to_path() {
 if [ "$(uname -s)" = "Darwin" ]; then
   __add_to_path '/opt/homebrew/bin'
   export HOMEBREW_NO_ANALYTICS=1
+  eval "$(brew shellenv)"
 fi
 
 # Load configs
