@@ -1,0 +1,1 @@
+zinit snippet OMZP::git

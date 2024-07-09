@@ -21,6 +21,7 @@ __load 'instant-prompt'
 __load 'zinit'
 __load 'p10k-prompt'
 __load 'zinit-plugins'
+__load 'snippets'
 __load 'history-settings'
 __load 'completions'
 __load 'smart-mover'
@@ -64,3 +65,6 @@ setopt auto_cd
 
 # Cleanup
 unfunction __load __add_to_path
+
+# bun completions
+[ -s "/Users/bek/.bun/_bun" ] && source "/Users/bek/.bun/_bun"
