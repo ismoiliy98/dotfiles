@@ -8,3 +8,5 @@ alias l='ls -lhA'
 alias ll='ls -l'
 alias la='l'
 alias c='clear'
+# alias eas="bunx eas-cli"
+alias expo-doctor="bunx expo-doctor"

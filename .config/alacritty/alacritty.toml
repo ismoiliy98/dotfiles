@@ -1,0 +1,32 @@
+[general]
+import = ["themes/vesper.toml", "bindings.toml"]
+
+[font]
+size = 16.0
+normal.family = "FiraCode Nerd Font"
+normal.style = "Regular"
+
+[cursor]
+unfocused_hollow = false
+thickness = 0.25
+blink_timeout = 0
+blink_interval = 600
+
+[cursor.style]
+shape = 'Beam'
+blinking = 'Always'
+
+[window.dimensions]
+columns = 84
+lines = 28
+
+[window.padding]
+x = 4
+y = 6
+
+[window]
+opacity = 0.8
+blur = true
+
+[mouse]
+hide_when_typing = true
