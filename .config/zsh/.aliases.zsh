@@ -10,3 +10,4 @@ alias la='l'
 alias c='clear'
 # alias eas="bunx eas-cli"
 alias expo-doctor="bunx expo-doctor"
+alias frpc='~/frp/frpc -c ~/frp/frpc.toml'

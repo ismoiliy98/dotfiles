@@ -73,5 +73,11 @@ fi
 # Turso
 [ -d "$HOME/.turso" ] && __add_to_path "$HOME/.turso"
 
+# bun completions
+[ -s "/Users/bek/.bun/_bun" ] && source "/Users/bek/.bun/_bun"
+
+# rust
+command -v cargo >/dev/null 2>&1 && __add_to_path "$HOME/.cargo/bin"
+
 # Cleanup
 __cleanup
