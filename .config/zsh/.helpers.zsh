@@ -1,13 +1,19 @@
-# Helper functions
 __load() {
   source "$HOME/.config/zsh/.$1.zsh"
 }
 
 __add_to_path() {
-  case ":$PATH:" in
-  *":$1:"*) ;;
-  *) export PATH="$1:$PATH" ;;
-  esac
+  path=("$1" $path)
+}
+
+__eval_cached() {
+  local name="$1"; shift
+  local cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/${name}.zsh"
+  if [[ ! -r "$cache" || $commands[$1] -nt "$cache" ]]; then
+    mkdir -p "${cache:h}"
+    "$@" > "$cache" 2>/dev/null
+  fi
+  source "$cache"
 }
 
 __ensure_omz() {
@@ -59,6 +65,6 @@ __ensure_omz() {
 }
 
 __cleanup() {
-  unfunction __load __add_to_path
+  unfunction __load __add_to_path __ensure_omz __eval_cached
   unset -f __cleanup
 }

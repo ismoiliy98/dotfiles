@@ -1,7 +1,7 @@
 [user]
 name = bek
 email = ismoiliy98@gmail.com
-signingkey = 0566CE3B
+signingkey = 54505DD96877D2C9D6054B78E702CED30566CE3B
 
 [init]
 defaultBranch = main
@@ -14,3 +14,6 @@ gpgSign = true
 
 [tag]
 gpgSign = true
+
+[push]
+autoSetupRemote = true

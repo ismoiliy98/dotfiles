@@ -3,9 +3,8 @@ export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
 if [ ! -d "$ZSH" ]; then
   echo 'Oh My Zsh not found. Installing...'
 
-  local OMZ_GITHUB_REPO = 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh'
-  local OMZ_INSTALL_SCRIPT = "$OMZ_GITHUB_REPO/master/tools/install.sh"
-  sh -c "$(curl -fsSL $OMZ_INSTALL_SCRIPT)" '' --unattended --keep-zshrc
+  OMZ_REPO='https://raw.githubusercontent.com/ohmyzsh/ohmyzsh'
+  sh -c "$(curl -fsSL "$OMZ_REPO/master/tools/install.sh")" '' --unattended --keep-zshrc
 
   echo 'Oh My Zsh installed.'
 fi

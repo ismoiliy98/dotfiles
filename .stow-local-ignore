@@ -16,8 +16,8 @@ CVS
 .+~ # emacs backup files
 \#.\*\# # emacs autosave files
 
-^/README._
-^/LICENSE._
+^/README.*
+^/LICENSE.*
 ^/COPYING
 
 ^/.ssh
