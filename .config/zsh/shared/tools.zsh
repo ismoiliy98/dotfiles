@@ -6,15 +6,15 @@ fi
 
 if [ -d "$HOME/.nvm" ]; then
   export NVM_DIR="$HOME/.nvm"
-  __load_nvm() {
-    unset -f nvm node npm npx corepack __load_nvm
+  _node_bin=("$NVM_DIR"/versions/node/*/bin(/Nn[-1]))
+  [ -n "$_node_bin" ] && __add_to_path "$_node_bin"
+  unset _node_bin
+  nvm() {
+    unset -f nvm
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+    nvm "$@"
   }
-  for _cmd in nvm node npm npx corepack; do
-    eval "${_cmd}() { __load_nvm; ${_cmd} \"\$@\"; }"
-  done
-  unset _cmd
 fi
 
 if [ -d "$HOME/go" ]; then
@@ -31,8 +31,7 @@ fi
 
 [ -d "$HOME/.turso" ] && __add_to_path "$HOME/.turso"
 
-if [ -d "$HOME/Library/Android/sdk" ]; then
-  export ANDROID_HOME="$HOME/Library/Android/sdk"
+if [ -n "$ANDROID_HOME" ]; then
   for _d in platform-tools cmdline-tools/latest/bin emulator; do
     [ -d "$ANDROID_HOME/$_d" ] && __add_to_path "$ANDROID_HOME/$_d"
   done
