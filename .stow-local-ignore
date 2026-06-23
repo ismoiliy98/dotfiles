@@ -19,6 +19,7 @@ CVS
 ^/README.*
 ^/LICENSE.*
 ^/COPYING
+^/install.sh
 
 ^/.ssh
 \.DS_Store
