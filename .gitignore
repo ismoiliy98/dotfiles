@@ -5,3 +5,4 @@
 .ssh
 .zcompdump*
 *.zwc
+.zsh_sessions/
