@@ -2,7 +2,7 @@
 
 __load instant-prompt
 __load exports
-__load omz
+__load antidote
 __load history
 __load completions
 __load tools

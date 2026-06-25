@@ -6,3 +6,4 @@
 .zcompdump*
 *.zwc
 .zsh_sessions/
+.zsh_plugins*.zsh
