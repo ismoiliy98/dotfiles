@@ -1,6 +1,9 @@
 __load instant-prompt
 
-[[ -n $BREW_PREFIX ]] && __eval_cached brewenv "$BREW_PREFIX/bin/brew" shellenv
+if [[ -n $BREW_PREFIX ]]; then
+  __eval_cached brewenv "$BREW_PREFIX/bin/brew" shellenv
+  path=("$BREW_PREFIX"/{bin,sbin} $path)
+fi
 __load exports
 __load antidote
 __load history
