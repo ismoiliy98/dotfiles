@@ -19,12 +19,12 @@ alias brewup='brew update && brew upgrade && brew cleanup'
 alias expo-doctor='bunx expo-doctor'
 
 frpc() {
-  if [ -z "$1" ]; then
+  if [[ -z "$1" ]]; then
     ~/frp/frpc -c ~/frp/frpc.toml
     return
   fi
   local config=~/frp/${1}.toml
-  if [ ! -f "$config" ]; then
+  if [[ ! -f "$config" ]]; then
     echo "error: config not found: $config" >&2
     return 1
   fi

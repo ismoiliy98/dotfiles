@@ -4,8 +4,11 @@ export EDITOR='vim'
 export VISUAL="$EDITOR"
 export PAGER='less'
 export LESS='-R'
-export MANPAGER='less -R'
-(( $+commands[bat] )) && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+if (( $+commands[bat] )); then
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+else
+  export MANPAGER='less -R'
+fi
 
 export LANG='en_US.UTF-8'
 export LS_COLORS='di=1;34:ln=1;36:so=1;35:pi=1;33:ex=1;32:bd=1;33;40:cd=1;33;40:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:mi=0;41:or=0;41'
