@@ -1,7 +1,6 @@
 font-family = FiraCode Nerd Font Mono
 font-size = 16
-font-feature = -calt
-font-feature = -liga
+font-thicken = true
 
 background = #101010
 foreground = #ffffff
@@ -26,20 +25,13 @@ cursor-style = bar
 cursor-style-blink = true
 
 background-opacity = 0.8
-background-blur = true
+background-blur = macos-glass-regular
 
 window-width = 84
 window-height = 28
 window-padding-x = 4
 window-padding-y = 6
+window-colorspace = display-p3
 
 mouse-hide-while-typing = true
 macos-option-as-alt = left
-macos-titlebar-style = native
-
-keybind = alt+right=esc:F
-keybind = alt+left=esc:B
-keybind = cmd+right=text:\x05
-keybind = cmd+left=text:\x01
-keybind = cmd+enter=text:\n
-keybind = alt+enter=text:\n
