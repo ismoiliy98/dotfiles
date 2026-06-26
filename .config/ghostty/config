@@ -32,6 +32,7 @@ window-height = 28
 window-padding-x = 4
 window-padding-y = 6
 window-colorspace = display-p3
+title = Ghostty
 
 mouse-hide-while-typing = true
 macos-option-as-alt = left
