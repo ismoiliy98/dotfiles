@@ -17,3 +17,44 @@ gpgSign = true
 
 [push]
 autoSetupRemote = true
+
+[core]
+fsmonitor = true
+untrackedCache = true
+pager = delta
+
+[interactive]
+diffFilter = delta --color-only
+
+[delta]
+navigate = true
+line-numbers = true
+
+[diff]
+algorithm = histogram
+colorMoved = plain
+mnemonicPrefix = true
+renames = true
+
+[merge]
+conflictStyle = zdiff3
+
+[fetch]
+prune = true
+
+[rebase]
+autoSquash = true
+autoStash = true
+updateRefs = true
+
+[branch]
+sort = -committerdate
+
+[column]
+ui = auto
+
+[commit]
+verbose = true
+
+[help]
+autocorrect = prompt
