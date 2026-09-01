@@ -1,3 +1,5 @@
+(( $+commands[mise] )) && __eval_cached mise mise activate zsh
+
 [[ -d "$HOME/.bun/bin" ]] && __add_to_path "$HOME/.bun/bin"
 
 if [[ -d "$HOME/go" ]]; then
@@ -11,8 +13,6 @@ if [[ -d "$HOME/.deno/bin" ]]; then
   export DENO_INSTALL="$HOME/.deno"
   __add_to_path "$DENO_INSTALL/bin"
 fi
-
-[[ -d "$HOME/.turso" ]] && __add_to_path "$HOME/.turso"
 
 if [[ -n "$ANDROID_HOME" ]]; then
   for _d in platform-tools cmdline-tools/latest/bin emulator; do
