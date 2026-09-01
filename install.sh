@@ -21,16 +21,12 @@ done
 
 echo "==> Linking dotfiles into \$HOME"
 mkdir -p "$HOME/.config"
-stow --dir="$(dirname "$DOTFILES")" --target="$HOME" --restow "$(basename "$DOTFILES")"
+(cd "$DOTFILES" && stow --target="$HOME" --restow .)
 
-if [[ "$OSTYPE" == darwin* ]]; then
-  echo "==> Installing packages (brew bundle)"
-  brew bundle --file="$DOTFILES/.config/homebrew/Brewfile"
-else
-  echo "==> Skipping brew bundle on $OSTYPE (Brewfile is macOS casks); add a Linux manifest later"
-fi
+echo "==> Installing packages (brew bundle)"
+brew bundle --file="$DOTFILES/.config/homebrew/Brewfile"
 
-echo "==> Bootstrapping zsh (oh-my-zsh + plugins install on first run)"
+echo "==> Bootstrapping zsh (antidote plugins install on first run)"
 zsh -i -c exit || true
 
 echo
