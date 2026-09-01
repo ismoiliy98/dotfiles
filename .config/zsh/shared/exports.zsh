@@ -20,6 +20,11 @@ export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 
 [[ -n $TTY ]] && export GPG_TTY=$TTY
 
+if (( $+commands[gpgconf] )) && grep -qs '^[A-Fa-f0-9]' "${GNUPGHOME:-$HOME/.gnupg}/sshcontrol"; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+  gpgconf --launch gpg-agent >/dev/null 2>&1
+fi
+
 setopt no_nomatch no_equals auto_cd auto_pushd pushd_ignore_dups pushd_silent interactive_comments globdots no_beep
 
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
