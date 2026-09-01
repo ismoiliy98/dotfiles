@@ -4,10 +4,21 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
-alias ls='ls --color'
-alias l='ls -lhA'
-alias ll='ls -l'
-alias la='l'
+if (( $+commands[eza] )); then
+  alias ls='eza --group-directories-first'
+  alias l='eza -la --group-directories-first --git'
+  alias ll='eza -l --group-directories-first --git'
+  alias la='l'
+  alias lt='eza --tree --level=2 --group-directories-first'
+else
+  alias ls='ls --color'
+  alias l='ls -lhA'
+  alias ll='ls -l'
+  alias la='l'
+fi
+
+(( $+commands[rg] )) && alias grep='rg'
+(( $+commands[fd] )) && alias find-name='fd'
 
 alias c='clear'
 alias reload='exec zsh'
