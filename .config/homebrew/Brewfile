@@ -47,7 +47,7 @@ if OS.mac?
   cask "microsoft-outlook"
   cask "mos"
   cask "pearcleaner"
-  cask "qbittorrent"
+  # optional: cask "qbittorrent"
   cask "raspberry-pi-imager"
   cask "tailscale-app"
   cask "telegram"
