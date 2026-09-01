@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal macOS (Apple Silicon) shell environment — zsh + oh-my-zsh + powerlevel10k, deployed with GNU Stow.
+Cross-platform (macOS + Linux) zsh environment — antidote + powerlevel10k, deployed with GNU Stow, packages via a single OS-guarded Brewfile.
 
 ## Preview
 
@@ -10,30 +10,40 @@ Personal macOS (Apple Silicon) shell environment — zsh + oh-my-zsh + powerleve
 
 | Path | Purpose |
 |------|---------|
-| `.zshenv` | PATH for **all** shells — puts arm Homebrew first, even non-interactive |
-| `.zshrc` | Interactive entry point: helpers → Homebrew → modules below |
-| `.config/zsh/.helpers.zsh` | `__load` / `__add_to_path` / `__ensure_omz` bootstrap |
-| `.config/zsh/.instant-prompt.zsh` | powerlevel10k instant prompt |
-| `.config/zsh/.exports.zsh` | env vars (EDITOR, PAGER, XDG…) + interactive `setopt`s |
-| `.config/zsh/.oh-my.zsh` | oh-my-zsh + p10k bootstrap (auto-installs if missing) |
-| `.config/zsh/.omz-plugins.zsh` | oh-my-zsh plugin list |
-| `.config/zsh/.history-settings.zsh` | history config + prefix-search keybinds |
-| `.config/zsh/.completions.zsh` | fzf + zoxide integration |
-| `.config/zsh/.tools.zsh` | language runtimes (Bun, lazy nvm, Go, Rust, Deno…) |
-| `.config/zsh/.aliases.zsh` | aliases + small functions |
-| `.config/alacritty/` | Alacritty config + themes |
-| `.config/homebrew/Brewfile` | `brew bundle` manifest (formulae, casks, VS Code ext) |
-| `.gitconfig`, `.p10k.zsh` | git + prompt config |
+| `.zshenv` | ZDOTDIR, OS detection (`DOTFILES_OS`), Homebrew on PATH for all shells |
+| `.config/zsh/.zshrc` | Entry: helpers → `<os>/entry.zsh` → `shared/entry.zsh` |
+| `.config/zsh/shared/helpers.zsh` | `__load`, `__add_to_path`, `__eval_cached` |
+| `.config/zsh/shared/entry.zsh` | Module chain: exports → antidote → history → keybinds → completions → tools → aliases |
+| `.config/zsh/shared/antidote.zsh` | Plugin manager; static bundles from `.zsh_plugins*.txt`, zcompiled |
+| `.config/zsh/shared/tools.zsh` | mise (cached), Go, cargo, deno, bun, Android, LM Studio paths |
+| `.config/zsh/macos/` | ANDROID_HOME, Keychain-backed secrets |
+| `.config/zsh/linux/` | ANDROID_HOME, libsecret-backed secrets, pbcopy/pbpaste shims |
+| `.config/ghostty/` | Ghostty terminal config |
+| `.config/homebrew/Brewfile` | One manifest: shared formulae + `if OS.mac?` casks/mas/vscode |
+| `.gitconfig` | Signing, delta pager, fsmonitor, histogram/zdiff3 |
+| `.gnupg/gpg-agent.conf` | pinentry (macOS path; adjust on Linux) |
 
 ## Install
 
 ```sh
 git clone <repo> ~/dotfiles
-brew bundle --file=~/dotfiles/.config/homebrew/Brewfile
-stow --dir="$HOME" --target="$HOME" dotfiles
+~/dotfiles/install.sh
 ```
 
-## Notes
+The script installs Homebrew if missing, `stow`s the repo into `$HOME`, and runs `brew bundle`. Plugins install themselves on first shell start.
 
-- **nvm is lazy-loaded** — the first `node`/`npm`/`npx`/`nvm` call sources it, keeping startup ~0.7s instead of ~1.5s. Primary JS runtime is Bun.
-- Adding a zsh module: drop `.config/zsh/.<name>.zsh` and add a `__load '<name>'` line to `.zshrc` (the `.config/zsh` dir is stow-symlinked, so new files are picked up automatically).
+## Secrets
+
+Registry tokens never live in files. `~/.npmrc` / `~/.bunfig.toml` reference env vars; the shell loads them lazily on the first `npm`/`npx`/`bun`/`bunx` call per session.
+
+- macOS: `security add-generic-password -U -a "$USER" -s github-packages-token -w '<token>'`
+- Linux: `secret-tool store --label=github-packages service github-packages-token`
+
+Rotating a token = re-running the store command. Nothing else changes.
+
+## Behavior notes
+
+- Startup ≈ 60 ms: static antidote bundles, `compinit -C`, cached `brew shellenv` and `mise activate`, lazy Keychain reads.
+- History expansion (`!!`), `nomatch` glob aborts, `=cmd` and interactive extended-glob are **off** — strings with `! ? ^ [ ] =` pass through literally. Matching globs still expand; `globdots` is on, so bare `*` includes dotfiles.
+- History lives at `~/.local/state/zsh/history` (100k, deduped, shared).
+- `eza`/`rg`/`fd`/`delta` replace ls/grep/find/diff-pager where installed, with plain fallbacks.
