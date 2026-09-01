@@ -11,3 +11,5 @@ for _p in /opt/homebrew /usr/local /home/linuxbrew/.linuxbrew "$HOME/.linuxbrew"
 done
 unset _p
 [[ -n $BREW_PREFIX ]] && path=("$BREW_PREFIX"/{bin,sbin} $path)
+
+export SHELL_SESSIONS_DISABLE=1

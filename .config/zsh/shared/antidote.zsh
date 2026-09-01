@@ -1,5 +1,3 @@
-# Plugin manager (antidote), loaded by shared/entry.zsh via `__load antidote`.
-# Bundles: .zsh_plugins.txt (+ .zsh_plugins_pre.txt for fpath completions before compinit).
 
 ANTIDOTE_REPO="${XDG_DATA_HOME:-$HOME/.local/share}/antidote"
 ANTIDOTE_PRE_TXT="$ZDOTDIR/.zsh_plugins_pre.txt"

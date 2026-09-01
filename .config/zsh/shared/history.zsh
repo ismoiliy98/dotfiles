@@ -1,9 +1,12 @@
-HISTSIZE='50000'
-HISTFILE="$HOME/.zsh_history"
+HISTSIZE='100000'
 SAVEHIST="$HISTSIZE"
+HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
+[[ -d ${HISTFILE:h} ]] || mkdir -p "${HISTFILE:h}"
+[[ ! -s $HISTFILE && -s $HOME/.zsh_history ]] && cp "$HOME/.zsh_history" "$HISTFILE"
 
-setopt appendhistory sharehistory hist_save_no_dups hist_find_no_dups \
-  hist_ignore_space hist_ignore_all_dups globdots
+setopt no_bang_hist appendhistory sharehistory hist_save_no_dups hist_find_no_dups \
+  hist_ignore_space hist_ignore_all_dups hist_expire_dups_first \
+  hist_reduce_blanks hist_verify
 
 autoload -Uz history-search-end
 zle -N history-beginning-search-backward-end history-search-end

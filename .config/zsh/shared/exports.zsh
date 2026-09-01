@@ -3,8 +3,8 @@ export HOMEBREW_NO_ANALYTICS=1
 export EDITOR='vim'
 export VISUAL="$EDITOR"
 export PAGER='less'
-export LESS='-R'
-if (( $+commands[bat] )); then
+export LESS='-RFi'
+if (( $+commands[bat] && $+commands[col] )); then
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 else
   export MANPAGER='less -R'
@@ -20,4 +20,6 @@ export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 
 [[ -n $TTY ]] && export GPG_TTY=$TTY
 
-setopt auto_cd auto_pushd pushd_ignore_dups pushd_silent interactive_comments extended_glob no_beep
+setopt no_nomatch no_equals auto_cd auto_pushd pushd_ignore_dups pushd_silent interactive_comments globdots no_beep
+
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
