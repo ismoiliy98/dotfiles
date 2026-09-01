@@ -8,6 +8,7 @@ on:
 jobs:
   smoke:
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -16,7 +17,7 @@ jobs:
 
       - name: Install prerequisites (linux)
         if: runner.os == 'Linux'
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq zsh stow
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq zsh stow git ca-certificates
 
       - name: Install prerequisites (macos)
         if: runner.os == 'macOS'
@@ -44,6 +45,6 @@ jobs:
         run: |
           export HOME="$RUNNER_TEMP/home"
           cd "$HOME"
-          out=$(zsh -ilc 'echo os=$DOTFILES_OS hist=$HISTFILE; typeset -f _zsh_autosuggest_start >/dev/null && echo plugins=loaded' 2>&1)
+          out=$(zsh -ilc 'echo os=$DOTFILES_OS hist=$HISTFILE; typeset -f _zsh_autosuggest_start >/dev/null && echo plugins=loaded' 2>&1) || true
           echo "$out"
           echo "$out" | grep -q "os=" && echo "$out" | grep -q "plugins=loaded"
