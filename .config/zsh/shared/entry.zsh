@@ -7,6 +7,7 @@ fi
 __load exports
 __load antidote
 __load history
+__load keybinds
 __load completions
 __load tools
 __load aliases
