@@ -10,6 +10,7 @@ CVS
 \.hg
 
 \.git
+\.github
 \.gitignore
 \.gitmodules
 

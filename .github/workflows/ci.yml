@@ -1,0 +1,49 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  smoke:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install prerequisites (linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq zsh stow
+
+      - name: Install prerequisites (macos)
+        if: runner.os == 'macOS'
+        run: brew install stow
+
+      - name: Syntax-check all zsh files
+        run: |
+          for f in .zshenv .config/zsh/.zshrc .config/zsh/shared/*.zsh .config/zsh/macos/*.zsh .config/zsh/linux/*.zsh; do
+            zsh -n "$f"
+          done
+
+      - name: Brewfile parses
+        if: runner.os == 'macOS'
+        run: brew bundle list --file=.config/homebrew/Brewfile >/dev/null
+
+      - name: Stow into a fake home
+        run: |
+          export FAKEHOME="$RUNNER_TEMP/home"
+          mkdir -p "$FAKEHOME/dotfiles" "$FAKEHOME/.config"
+          tar cf - --exclude=.git . | tar xf - -C "$FAKEHOME/dotfiles"
+          cd "$FAKEHOME/dotfiles" && stow --target="$FAKEHOME" --restow .
+          readlink "$FAKEHOME/.zshenv" "$FAKEHOME/.config/zsh"
+
+      - name: Full interactive chain boots
+        run: |
+          export HOME="$RUNNER_TEMP/home"
+          cd "$HOME"
+          out=$(zsh -ilc 'echo os=$DOTFILES_OS hist=$HISTFILE; typeset -f _zsh_autosuggest_start >/dev/null && echo plugins=loaded' 2>&1)
+          echo "$out"
+          echo "$out" | grep -q "os=" && echo "$out" | grep -q "plugins=loaded"
