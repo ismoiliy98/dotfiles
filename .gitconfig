@@ -58,3 +58,6 @@ verbose = true
 
 [help]
 autocorrect = prompt
+
+[include]
+path = ~/.gitconfig.local
