@@ -23,7 +23,7 @@ source "$ANTIDOTE_PRE_ZSH"
 
 ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-antidote-$ZSH_VERSION"
 [[ -d ${ZSH_COMPDUMP:h} ]] || mkdir -p "${ZSH_COMPDUMP:h}"
-autoload -Uz compinit && compinit -C -d "$ZSH_COMPDUMP"
+autoload -Uz compinit && compinit -C -u -d "$ZSH_COMPDUMP"
 [[ $ZSH_COMPDUMP.zwc -nt $ZSH_COMPDUMP ]] || zcompile -R -- "$ZSH_COMPDUMP" 2>/dev/null
 
 source "$ANTIDOTE_MAIN_ZSH"
