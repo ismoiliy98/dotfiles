@@ -21,7 +21,7 @@ Cross-platform (macOS + Linux) zsh environment — antidote + powerlevel10k, dep
 | `.config/ghostty/` | Ghostty terminal config |
 | `.config/homebrew/Brewfile` | One manifest: shared formulae + `if OS.mac?` casks/mas/vscode |
 | `.gitconfig` | Signing, delta pager, fsmonitor, histogram/zdiff3 |
-| `.gnupg/gpg-agent.conf` | pinentry (macOS path; adjust on Linux) |
+| `.gnupg/` | gpg-agent templates; install.sh writes the per-OS conf |
 
 ## Install
 

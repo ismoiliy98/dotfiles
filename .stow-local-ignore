@@ -11,6 +11,7 @@ CVS
 
 \.git
 \.github
+\.gnupg
 \.gitignore
 \.gitmodules
 

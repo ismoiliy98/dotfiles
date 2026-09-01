@@ -8,8 +8,9 @@ if ! command -v brew >/dev/null 2>&1; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+BREW_PREFIX=""
 for p in /opt/homebrew /usr/local /home/linuxbrew/.linuxbrew "$HOME/.linuxbrew"; do
-  if [ -x "$p/bin/brew" ]; then eval "$("$p/bin/brew" shellenv)"; break; fi
+  if [ -x "$p/bin/brew" ]; then eval "$("$p/bin/brew" shellenv)"; BREW_PREFIX="$p"; break; fi
 done
 
 for tool in stow zsh; do
@@ -22,6 +23,16 @@ done
 echo "==> Linking dotfiles into \$HOME"
 mkdir -p "$HOME/.config"
 (cd "$DOTFILES" && stow --target="$HOME" --restow .)
+
+echo "==> Configuring gpg-agent"
+mkdir -p "$HOME/.gnupg" && chmod 700 "$HOME/.gnupg"
+if [[ "$OSTYPE" == darwin* ]]; then
+  sed "s|@PINENTRY@|$BREW_PREFIX/bin/pinentry-mac|" "$DOTFILES/.gnupg/gpg-agent.macos.conf" > "$HOME/.gnupg/gpg-agent.conf"
+else
+  cp "$DOTFILES/.gnupg/gpg-agent.linux.conf" "$HOME/.gnupg/gpg-agent.conf"
+fi
+chmod 600 "$HOME/.gnupg/gpg-agent.conf"
+gpgconf --kill gpg-agent 2>/dev/null || true
 
 echo "==> Installing packages (brew bundle)"
 brew bundle --file="$DOTFILES/.config/homebrew/Brewfile"
