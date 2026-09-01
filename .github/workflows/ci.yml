@@ -46,6 +46,7 @@ jobs:
           export HOME="$RUNNER_TEMP/home"
           cd "$HOME"
           zsh -ilc exit >/dev/null 2>&1 || true
+          zsh -xilc exit 2>&1 | grep -B8 "initialization aborted" | tail -12 || true
           out=$(zsh -ilc 'echo os=$DOTFILES_OS hist=$HISTFILE; typeset -f _zsh_autosuggest_start >/dev/null && echo plugins=loaded' 2>&1) || true
           echo "$out"
           echo "$out" | grep -q "os=" && echo "$out" | grep -q "plugins=loaded"
