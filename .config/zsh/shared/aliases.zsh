@@ -20,6 +20,9 @@ fi
 (( $+commands[rg] )) && alias grep='rg'
 (( $+commands[fd] )) && alias find-name='fd'
 
+alias pip='python3 -m pip'
+alias pip3='python3 -m pip'
+
 alias c='clear'
 alias reload='exec zsh'
 alias path='print -l $path'
