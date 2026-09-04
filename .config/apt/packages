@@ -1,0 +1,9 @@
+build-essential
+curl
+docker.io
+fontconfig
+git
+libsecret-tools
+unzip
+wl-clipboard
+xclip

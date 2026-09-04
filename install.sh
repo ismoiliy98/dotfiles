@@ -3,6 +3,11 @@ set -euo pipefail
 
 DOTFILES="${DOTFILES:-$HOME/dotfiles}"
 
+if [[ "$OSTYPE" == linux* ]] && command -v apt-get >/dev/null 2>&1; then
+  echo "==> Installing native packages (apt)"
+  xargs -a "$DOTFILES/.config/apt/packages" sudo apt-get install -y
+fi
+
 if ! command -v brew >/dev/null 2>&1; then
   echo "==> Installing Homebrew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -36,6 +41,23 @@ gpgconf --kill gpg-agent 2>/dev/null || true
 
 echo "==> Installing packages (brew bundle)"
 brew bundle --file="$DOTFILES/.config/homebrew/Brewfile"
+
+if [[ "$OSTYPE" == linux* ]] && ! fc-list 2>/dev/null | grep -qi "Monaspace Neon NF"; then
+  echo "==> Installing Monaspace NF font"
+  tmp=$(mktemp -d)
+  curl -fsSL -o "$tmp/monaspace.zip" \
+    "https://github.com/githubnext/monaspace/releases/download/v1.400/monaspace-nerdfonts-v1.400.zip"
+  mkdir -p "$HOME/.local/share/fonts"
+  unzip -qo "$tmp/monaspace.zip" -d "$tmp"
+  find "$tmp" -name "*.otf" -exec cp {} "$HOME/.local/share/fonts/" \;
+  fc-cache -f "$HOME/.local/share/fonts"
+  rm -rf "$tmp"
+fi
+
+if command -v uv >/dev/null 2>&1; then
+  echo "==> Installing default python (uv)"
+  uv python install --default || true
+fi
 
 echo "==> Bootstrapping zsh (antidote plugins install on first run)"
 zsh -i -c exit || true
