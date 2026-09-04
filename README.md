@@ -19,7 +19,8 @@ Cross-platform (macOS + Linux) zsh environment — antidote + powerlevel10k, dep
 | `.config/zsh/macos/` | ANDROID_HOME, Keychain-backed secrets |
 | `.config/zsh/linux/` | ANDROID_HOME, libsecret-backed secrets, pbcopy/pbpaste shims |
 | `.config/ghostty/` | Ghostty terminal config |
-| `.config/homebrew/Brewfile` | One manifest: shared formulae + `if OS.mac?` casks/mas/vscode |
+| `.config/homebrew/` | `Brewfile` (shared CLI) + `Brewfile.mac` (casks/mas) + `Brewfile.vscode` (extensions, applied where `code` exists) |
+| `.config/apt/packages` | Linux native layer: linuxbrew build deps, libsecret, clipboard, docker engine |
 | `.gitconfig` | Signing, delta pager, fsmonitor, histogram/zdiff3 |
 | `.gnupg/` | gpg-agent templates; install.sh writes the per-OS conf |
 
@@ -31,6 +32,10 @@ git clone <repo> ~/dotfiles
 ```
 
 The script installs Homebrew if missing, `stow`s the repo into `$HOME`, and runs `brew bundle`. Plugins install themselves on first shell start.
+
+Machine-only packages go in `~/.Brewfile.local` (same syntax); the main Brewfile sources it when present.
+
+Both OSes share the same brew CLI set (all formulae have linux bottles). Mac GUI comes from `Brewfile.mac`; on Linux, GUI apps stay machine-local (distro packages) while install.sh covers the Monaspace font and docker engine.
 
 ## Secrets
 
