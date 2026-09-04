@@ -8,87 +8,25 @@ brew "gh"
 brew "git-delta"
 brew "gnupg"
 brew "go"
-brew "hcloud"
 brew "htop"
 brew "jq"
-brew "kubernetes-cli"
 brew "mise"
 brew "node"
-brew "python@3.14"
 brew "ripgrep"
-brew "shellcheck"
-brew "sops"
 brew "stow"
 brew "tree"
 brew "uv"
 brew "wget"
 brew "zoxide"
 
-if OS.mac?
-  brew "mas"
-  brew "pinentry-mac"
-
-  cask "1password"
-  cask "android-studio"
-  cask "anydesk"
-  cask "bettercmdtab"
-  cask "bitwarden"
-  cask "brave-browser"
-  cask "caffeine"
-  cask "cyberduck"
-  cask "discord"
-  cask "docker-desktop"
-  cask "figma"
-  cask "font-fira-code-nerd-font"
-  cask "ghostty"
-  cask "google-chrome"
-  cask "lm-studio"
-  cask "lulu"
-  cask "microsoft-outlook"
-  cask "mos"
-  cask "pearcleaner"
-  # optional: cask "qbittorrent"
-  cask "raspberry-pi-imager"
-  cask "tailscale-app"
-  cask "telegram"
-  cask "visual-studio-code"
-  cask "vlc"
-  cask "whatsapp"
-  cask "zoom"
-
-  mas "Developer", id: 640199958
-  # optional: mas "iLovePDF", id: 1207332399
-  mas "Keynote", id: 409183694
-  mas "Numbers", id: 409203825
-  mas "Pages", id: 409201541
-  # optional: mas "WireGuard", id: 1451685025
-  mas "Xcode", id: 497799835
-
-  vscode "aaron-bond.better-comments"
-  vscode "anthropic.claude-code"
-  vscode "biomejs.biome"
-  vscode "davidanson.vscode-markdownlint"
-  vscode "eamodio.gitlens"
-  vscode "foxundermoon.shell-format"
-  vscode "github.vscode-github-actions"
-  vscode "mhutchie.git-graph"
-  vscode "miguelsolorio.fluent-icons"
-  vscode "mikestead.dotenv"
-  vscode "ms-azuretools.vscode-containers"
-  vscode "ms-azuretools.vscode-docker"
-  vscode "ms-vsliveshare.vsliveshare"
-  vscode "pkief.material-icon-theme"
-  vscode "redhat.vscode-xml"
-  vscode "redhat.vscode-yaml"
-  vscode "shd101wyy.markdown-preview-enhanced"
-  vscode "streetsidesoftware.code-spell-checker"
-  vscode "streetsidesoftware.code-spell-checker-russian"
-  vscode "tamasfe.even-better-toml"
-  vscode "tomoki1207.pdf"
-  vscode "usernamehw.errorlens"
-  vscode "yoavbls.pretty-ts-errors"
-  vscode "yzane.markdown-pdf"
-end
-
 uv "graphifyy"
 uv "markitdown[all]"
+
+code_cli = ["/opt/homebrew/bin/code", "/usr/local/bin/code", "/usr/bin/code", "/snap/bin/code",
+            File.expand_path("~/.local/bin/code")].any? { |p| File.executable?(p) }
+instance_eval(File.read(File.expand_path("Brewfile.vscode", __dir__))) if code_cli
+
+instance_eval(File.read(File.expand_path("Brewfile.mac", __dir__))) if OS.mac?
+
+local_brewfile = File.expand_path("~/.Brewfile.local")
+instance_eval(File.read(local_brewfile)) if File.exist?(local_brewfile)
