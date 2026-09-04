@@ -29,6 +29,11 @@ jobs:
             zsh -n "$f"
           done
 
+      - name: Shellcheck installer
+        run: |
+          command -v shellcheck >/dev/null || brew install shellcheck
+          shellcheck install.sh
+
       - name: Brewfile parses
         if: runner.os == 'macOS'
         run: brew bundle list --file=.config/homebrew/Brewfile >/dev/null
